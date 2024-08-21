@@ -1,0 +1,1 @@
+# Querino-6-termo
