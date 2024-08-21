@@ -1,0 +1,120 @@
+fun main() {
+    /*
+    // PRIMEIRO EMAIL
+    println("PRIMEIRO EMAIL")
+	var email = Email(
+    	"querino@me.com",
+        "bia@me.com",
+        null,
+        null,
+        null,
+        null
+    )
+    email.enviar()
+    
+    // SEGUNDO EMAIL
+    println("")
+    println("**************************************")
+    println("SEGUNDO EMAIL")
+    var email2 = Email(
+        "maria@me.com", 
+        "geraldo@me.com", 
+        listOf(),
+        "Assunto", 
+        "Oi, tudo bem?", 
+        listOf()
+    )
+    email2.enviar()
+    
+    // TERCEIRO EMAIL
+    println("")
+    println("**************************************")
+    println("TERCEIRO EMAIL")
+    var email3 = EmailV2(
+        "querino@me.com",
+        "bia@me.com"
+    )
+    email3.enviar()
+    
+    // QUARTO EMAIL
+    println("")
+    println("**************************************")
+    println("QUARTO EMAIL")
+    var emailGambiarra = EmailV2(destinatario = "bia@me.com", remetente = "querino@me.com")
+    emailGambiarra.enviar()
+    */
+    
+    var messagem1 = EmailBuilder().mensagem("Esta é a mensagem")
+    	.remetente("bia@me.com").destinatario("gi@me.com").build()
+   	messagem1.enviar()
+}
+
+class EmailBuilder() {
+    private var email: EmailV2 = EmailV2()
+    
+    fun build(): EmailV2 {
+        return email
+    }
+    
+    fun remetente(remetente: String): EmailBuilder {
+        email.remetente = remetente
+        return this
+    }
+    
+    fun destinatario(destinatario: String): EmailBuilder {
+        email.destinatario = destinatario
+        return this
+    }
+    
+    fun cc(cc: List<String>): EmailBuilder {
+        email.cc = cc
+        return this
+    }
+    
+    fun assunto(assunto: String): EmailBuilder {
+        email.assunto = assunto
+        return this
+    }
+    
+    fun mensagem(mensagem: String): EmailBuilder {
+        email.mensagem = mensagem
+        return this
+    }
+    
+    fun anexos(anexos: List<java.io.File>): EmailBuilder {
+        email.anexos = anexos
+        return this
+    }
+}
+
+class EmailV2 (
+    // Com valores default (padrão) para parâmetros opcionais
+	var remetente: String = "",
+    var destinatario: String = "",
+    var cc: List<String> = listOf(),
+    var assunto: String = "",
+    var mensagem: String = "",
+    var anexos: List<java.io.File> = listOf()
+){
+    fun enviar() {
+        println("Email 2.0 de $remetente enviado para $destinatario")
+    }
+}
+
+class Email (
+    
+    // Problema 1: execesso de parâmetros no contrutor
+    // Problema 2: parâmetros "misteriosos para quem visualiza o construtor"
+    // Problema 3: parâmetros "opcionais" devem ser colocados mesmo assim (nulo)
+    // Problema 4: na maioria das linguagens os parâmentros tem que ser colocados na ordem exata
+	var remetente: String,
+    var destinatario: String,
+    var cc: List<String>?,
+    var assunto: String?,
+    var mensagem: String?,
+    var anexos: List<java.io.File>?
+) {
+    fun enviar() {
+        println("E-mail de $remetente enviado para $destinatario")
+    }
+}
