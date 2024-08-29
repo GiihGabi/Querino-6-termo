@@ -1,0 +1,87 @@
+fun main() {
+    val base = Base()
+    val quartel1 = base.fabricarQuartel()
+    val quartel2 = base.fabricarQuartel()
+    val soldado1 = quartel1.fabricar(UnidadesExercito.SOLDADO)
+    val fuzileiro = quartel2.fabricar(UnidadesExercito.FUZILEIRO)
+    
+    
+    val montadora = base.fabricarMontadora()
+    val tanque = montadora.fabricar(UnidadesVeiculo.TANQUE)
+    val jipe = montadora.fabricar(UnidadesVeiculo.JIPE)
+    val submarino = montadora.fabricar(UnidadesVeiculo.SUBMARINO)
+    
+}
+
+interface FabricaDeFabricas<in TipoUnidadeFabricada, out UnidadeProduzida>
+    where TipoUnidadeFabricada: Enum<*>, UnidadeProduzida : Unidade {
+        
+        fun fabricar(tipo: TipoUnidadeFabricada) : UnidadeProduzida
+    }
+    
+    
+interface Unidade
+
+interface Veiculo : Unidade
+
+interface Exercito : Unidade
+
+class Jipe : Veiculo
+
+class Tanque : Veiculo
+
+class Submarino : Veiculo
+
+class Soldado : Exercito
+
+class Fuzileiro : Exercito
+
+class Atirador : Exercito
+
+enum class UnidadesExercito {
+    SOLDADO, FUZILEIRO, ATIRADOR
+}
+
+enum class UnidadesVeiculo {
+    JIPE, TANQUE, SUBMARINO
+}
+
+class Quartel : FabricaDeFabricas<UnidadesExercito, Exercito>{
+    override fun fabricar(tipo: UnidadesExercito) : Exercito {
+        return when (tipo) {
+            UnidadesExercito.SOLDADO -> Soldado()
+            UnidadesExercito.FUZILEIRO -> Fuzileiro()
+            UnidadesExercito.ATIRADOR -> Atirador()
+            
+        }
+    }
+}
+
+// Outra fabrica concreta, implementação de AbstractFactory (FabricasDeFabricas)
+class Montadora : FabricaDeFabricas<UnidadesVeiculo, Veiculo> {
+    override fun fabricar(tipo: UnidadesVeiculo) : Veiculo {
+        return when (tipo) {
+            UnidadesVeiculo.JIPE -> Jipe()
+            UnidadesVeiculo.TANQUE -> Tanque()
+            UnidadesVeiculo.SUBMARINO -> Submarino()
+            
+        }
+    }
+}
+
+class Base {
+    val fabricas = mutableListOf<FabricaDeFabricas<*, Unidade>>()
+    
+    fun fabricarQuartel(): Quartel{
+        val quartel = Quartel()
+        fabricas.add(quartel)
+        return quartel
+    }
+    
+    fun fabricarMontadora(): Montadora{
+        val montadora = Montadora()
+        fabricas.add(montadora)
+        return montadora
+    }
+    	
+}
