@@ -1,0 +1,97 @@
+fun main() {
+    val dogao1 = DogaoBasico()
+    println("${dogao1.obterIngredientes()} R$ ${dogao1.obterPreco()}")
+    
+    val dogao2 = Ketchup(DogaoBasico())
+    println("${dogao2.obterIngredientes()} R$ ${dogao2.obterPreco()}")
+    
+    val dogao3 = BatataPalha(PureDeBatata(Ketchup(DogaoBasico())))
+    println("${dogao3.obterIngredientes()} R$ ${dogao3.obterPreco()}")
+}
+
+
+interface Dogao {
+    fun obterIngredientes(): String 
+    fun obterPreco(): Double
+}
+
+class DogaoBasico : Dogao {
+    override fun obterIngredientes(): String {
+        return "Pão com salsicha e maionese"
+    }
+    
+    override fun obterPreco(): Double {
+        return 9.9;
+    }
+}
+
+open class DogaoDecorator(protected var dogao: Dogao): Dogao {
+    override fun obterIngredientes(): String {
+        return dogao.obterIngredientes()
+    }
+    
+    override fun obterPreco(): Double {
+        return dogao.obterPreco()
+    }
+}
+
+class Ketchup(dogao: Dogao) : DogaoDecorator(dogao) {
+    override fun obterIngredientes(): String {
+        return dogao.obterIngredientes() + ", ketchup"
+    }
+    
+    override fun obterPreco(): Double {
+        return dogao.obterPreco() + 0.5
+    }
+}
+
+class BatataPalha(dogao: Dogao) : DogaoDecorator(dogao) {
+    override fun obterIngredientes(): String {
+        return dogao.obterIngredientes() + ", batata palha"
+    }
+    
+    override fun obterPreco(): Double {
+        return dogao.obterPreco() + 1.2
+    }
+}
+
+
+class PureDeBatata(dogao: Dogao) : DogaoDecorator(dogao) {
+    override fun obterIngredientes(): String {
+        return dogao.obterIngredientes() + ", Purê de batata"
+    }
+    
+    override fun obterPreco(): Double {
+        return dogao.obterPreco() + 1.5
+    }
+}
+
+class OvoDeCodorna(dogao: Dogao) : DogaoDecorator(dogao) {
+    override fun obterIngredientes(): String {
+        return dogao.obterIngredientes() + ", ovo de codorna"
+    }
+    
+    override fun obterPreco(): Double {
+        return dogao.obterPreco() + 5.25
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

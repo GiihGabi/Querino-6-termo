@@ -1,0 +1,15 @@
+fun main() {
+    val maq01 = Computador()
+	val maq02 = Computador(ram = 16)
+    val maq03 = Computador(marca = "Dell", ssd = 256)
+    println(maq01)
+    println(maq02)
+    println(maq03)    
+}
+
+data class Computador(
+    var marca: String = "lenovo",
+    var cpu: String = "Intel i5 3 Ghz",
+    var ram: Int = 8,
+    var ssd: Int = 512
+)
