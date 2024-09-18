@@ -1,0 +1,48 @@
+// ADAPTER
+fun main() {
+    carregador(AdapterTomada.adaptarParaTomadaTresPinos(saidaDeEnergiaParede()))
+    celular(AdapterUsb.adaptarParaUsbMini(carregador(
+    	AdapterTomada.adaptarParaTomadaTresPinos(saidaDeEnergiaParede())
+    )))
+}
+
+interface TomadaDoisPinos
+interface TomadaTresPinos
+interface UsbMini
+interface UsbC
+
+fun celular(caboCarregador: UsbMini) {
+	println("celular carregando")
+}
+
+fun saidaDeEnergiaParede() : TomadaDoisPinos {
+    return object : TomadaDoisPinos {}
+}
+
+fun carregador(plug: TomadaTresPinos) : UsbC {
+    return object : UsbC {}
+}
+
+object AdapterTomada {
+    fun adaptarParaTomadaTresPinos(tomada: TomadaDoisPinos) :
+    TomadaTresPinos {
+        return object : TomadaTresPinos {
+            //Aqui entra a implementação "baixo nível" da adaptação
+        }
+    }
+}
+
+object AdapterUsb {
+    fun adaptarParaUsbMini(plugue: UsbC): UsbMini{
+        return object : UsbMini {
+            //Aqui entra a implementação "baixo nível" da adaptação
+        }
+    }
+}
+
+
+
+
+
+
+
